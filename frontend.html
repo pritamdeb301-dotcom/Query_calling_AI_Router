@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Clinic Agent Control Panel</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f3f5;
+      margin: 0;
+      padding: 40px 20px;
+      color: #2c3e50;
+    }
+
+    .dashboard-container {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #1a252f;
+    }
+
+    .grid-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
+    }
+
+    .full-width {
+      grid-column: span 2;
+    }
+
+    @media (max-width: 768px) {
+      .full-width {
+        grid-column: span 1;
+      }
+    }
+
+    h2 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 18px;
+      border-bottom: 2px solid #f0f3f5;
+      padding-bottom: 8px;
+      color: #34495e;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #7f8c8d;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      border: 1px solid #dcdde1;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+      height: 80px;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 15px;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .btn-blue {
+      background-color: #3498db;
+    }
+
+    .btn-purple {
+      background-color: #9b59b6;
+    }
+
+    .btn-green {
+      background-color: #2ecc71;
+    }
+
+    .response-box {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 6px;
+      display: none;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+
+    .info {
+      background-color: #e8f4fd;
+      color: #1d6fa5;
+      border: 1px solid #d4ebf9;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="dashboard-container">
+    <h1>Query calling AI Router Dashboard</h1>
+
+    <div class="grid-layout">
+
+      <div class="card">
+        <h2>🗓️ Book an Appointment Table</h2>
+        <form id="bookingForm">
+          <label for="book_name">Patient Name</label>
+          <input type="text" id="book_name" placeholder="e.g. Pritam Deb" required>
+
+          <label for="book_phone">Phone Number</label>
+          <input type="tel" id="book_phone" placeholder="e.g. +919366229626" required>
+
+          <label for="book_time">Desired Date & Time</label>
+          <input type="datetime-local" id="book_time" required>
+
+          <button type="submit" class="btn-blue">Confirm Booking</button>
+        </form>
+        <div id="bookingStatus" class="response-box"></div>
+      </div>
+
+      <div class="card">
+        <h2>📞 Call AI</h2>
+        <p style="font-size: 13px; color: #7f8c8d; margin-top: 0;">Ask your queries over the call.</p>
+        <form id="callForm">
+          <label for="call_name">Patient Name</label>
+          <input type="text" id="call_name" placeholder="e.g. Pritam Deb" required>
+
+          <label for="call_phone">Phone Number</label>
+          <input type="tel" id="call_phone" placeholder="e.g. +919366229626" required>
+
+          <button type="submit" class="btn-purple">AI Call</button>
+        </form>
+        <div id="callStatus" class="response-box"></div>
+      </div>
+
+      <div class="card full-width">
+        <h2>💬 Text your Query here</h2>
+        <form id="queryForm">
+          <label for="query_text">Patient Question</label>
+          <textarea id="query_text"
+            placeholder="What are your opening hours? Do you have appointments available next Friday?"
+            required></textarea>
+
+          <button type="submit" class="btn-green">Submit Query</button>
+        </form>
+        <div id="queryStatus" class="response-box"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const BACKEND_BASE = "http://127.0.0.1:8000/api/webhook";
+
+    // Helper utility to flash UI alerts
+    function updateStatus(elementId, message, type) {
+      const box = document.getElementById(elementId);
+      box.className = `response-box ${type}`;
+      box.textContent = message;
+      box.style.display = 'block';
+    }
+
+    // 1. APPOINTMENT BOOKING FORM LOGIC
+    document.getElementById('bookingForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById('book_name').value,
+        phone_number: document.getElementById('book_phone').value,
+        desired_time: new Date(document.getElementById('book_time').value).toISOString()
+      };
+      try {
+        const res = await fetch(`${BACKEND_BASE}/create-booking`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok) {
+          updateStatus('bookingStatus', data.message || "Appointment written successfully!", 'success');
+          document.getElementById('bookingForm').reset();
+        } else {
+          updateStatus('bookingStatus', `Error: ${data.detail || "Schema validation failure"}`, 'error');
+        }
+      } catch (err) {
+        updateStatus('bookingStatus', "Failed to connect to local server wrapper.", 'error');
+      }
+    });
+
+    // 2. TRIGGER OUTBOUND AI CALL LOGIC
+    document.getElementById('callForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Grab both values from the new form setup
+      const nameVal = document.getElementById('call_name').value;
+      const phoneVal = document.getElementById('call_phone').value;
+
+      try {
+        const res = await fetch('http://127.0.0.1:8000/api/trigger-call', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: nameVal,          // 🔥 Added matching backend key
+            phone_number: phoneVal  // 🔥 Matches your backend key
+          })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          updateStatus('callStatus', data.message || "Outbound call successfully initialized!", 'success');
+        } else {
+          updateStatus('callStatus', `Server Error: ${data.detail || "Check input formatting"}`, 'error');
+        }
+      } catch (err) {
+        updateStatus('callStatus', "Network Error: Cannot connect to the backend server.", 'error');
+      }
+    });
+
+    // 3. VOICE QUERY INGESTION LOGIC
+    document.getElementById('queryForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const questionText = document.getElementById('query_text').value;
+      try {
+        const res = await fetch(`${BACKEND_BASE}/voice-query`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: questionText })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          updateStatus('queryStatus', `🤖 AI Response:\n${data.answer}`, 'info');
+        } else {
+          updateStatus('queryStatus', `RAG Error: ${data.detail || "Failed to process database contexts"}`, 'error');
+        }
+      } catch (err) {
+        updateStatus('queryStatus', "Connection Interrupted: Check your active terminal runtime windows.", 'error');
+      }
+    });
+  </script>
+
+</body>
+
+</html>

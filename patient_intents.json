@@ -1,0 +1,109 @@
+{
+  "intents": [
+    {
+      "name": "clinic_hours",
+      "question": "What are your clinic hours?",
+      "answer": "Our clinic is open Monday-Friday 9:00 am-6:00 pm. Saturday appointments available 9:00 am-1:00 pm by request."
+    },
+    {
+      "name": "appointment_scheduling",
+      "question": "How do I schedule an appointment?",
+      "answer": "You can schedule an appointment by using our calling AI agent feature, visiting our website at www.clinicwebsite.com, or using our patient portal. New patients should call to schedule their first visit."
+    },
+    {
+      "name": "symptom_reporting",
+      "question": "I have a headache and fever, what should I do?",
+      "answer": "Please schedule a consultation with our clinic. We'll be happy to examine you and provide appropriate treatment. For severe symptoms, consider visiting an urgent care or emergency room."
+    },
+    {
+      "name": "medication_query",
+      "question": "What are the side effects of medication X?",
+      "answer": "Every medication has potential side effects. Please consult with our doctor to discuss the specific medication you're interested in, as side effects can vary based on individual health factors."
+    },
+    {
+      "name": "waiting_room_instructions",
+      "question": "Do I wear a mask in the waiting room?",
+      "answer": "Yes, all patients are required to wear a mask upon entering the clinic for the safety of everyone. Masks are available at the entrance if needed."
+    },
+    {
+      "name": "insurance_coverage",
+      "question": "Do you accept my insurance?",
+      "answer": "We accept most major insurance plans including Medicare and Medicaid. Please contact at our billing department."
+    },
+    {
+      "name": "prescription_refill",
+      "question": "Can I get a refill on my prescription?",
+      "answer": "Yes, you can request a refill through our patient portal, by calling our AI agent featured there. option 2, or through your pharmacy. Please allow 24 hours for processing."
+    },
+    {
+      "name": "cancel_appointment",
+      "question": "I need to cancel my appointment.",
+      "answer": "You can cancel your appointment by calling to our AI agent. Please provide at least 24 hours notice to avoid a cancellation fee."
+    },
+    {
+      "name": "emergency_contact",
+      "question": "What should I do if it's a medical emergency?",
+      "answer": "For emergencies, please go directly to the nearest emergency room or call 911. Our office is not equipped for emergency situations. For urgent but non-life-threatening issues, visit an urgent care center."
+    },
+    {
+      "name": "directions_parking",
+      "question": "Where are you located and is there parking?",
+      "answer": "We're located at 123 Health Street, Medical City, State 12345. We have free patient parking in our lot behind the building, with handicap-accessible spots available."
+    },
+    {
+      "name": "new_patient_forms",
+      "question": "What do I need to bring for my first appointment?",
+      "answer": "Please bring your insurance card, photo ID, list of current medications, and any relevant medical records. New patient forms can be completed online beforehand or arrived 15 minutes early to fill out in person."
+    },
+    {
+      "name": "lab_results",
+      "question": "When will my lab results be ready?",
+      "answer": "Most routine lab results are available within 3-5 business days. You'll be notified when they're ready through our patient portal. For urgent results, your doctor will contact you directly."
+    },
+    {
+      "name": "telehealth_visit",
+      "question": "Can I have a telehealth visit?",
+      "answer": "Yes, we offer telehealth visits for appropriate conditions. Please call our office to schedule a virtual visit. You'll need a smartphone, tablet, or computer with camera and microphone capabilities."
+    },
+    {
+      "name": "location_address",
+      "question": "What is the location of your clinic?",
+      "answer": "Our location is Rajarbag school road,Udaipur gomati Tripura Pin:-799120"
+    },
+    {
+      "name": "flu_shot",
+      "question": "When can I get a Polio for my child?",
+      "answer": "Polio vacines are available starting in September each year. Walk-ins are accepted during clinic hours, or you can schedule an appointment."
+    },
+    {
+      "name": "referral_process",
+      "question": "How do I get a referral to a specialist?",
+      "answer": "Please schedule an appointment with one of our providers to discuss your needs. If a referral is medically necessary, our staff will help coordinate the referral process and provide any required documentation."
+    },
+    {
+      "name": "bill_payment",
+      "question": "How can I pay my bill?",
+      "answer": "You can pay your bill online through our patient portal, by visiting our website www.clinic.com, or by mailing a check to our office. We accept all major credit cards, debit cards, and UPI."
+    },
+    {
+      "name": "medical_records_request",
+      "question": "How do I request a copy of my medical records?",
+      "answer": "Medical records requests can be made by signing a release form available at our front desk or through our patient portal. There may be a fee for copying and mailing records, and processing typically takes 5-7 business days."
+    },
+    {
+      "name": "after_hours_contact",
+      "question": "What if I need to contact the doctor after hours?",
+      "answer": "For urgent medical issues after hours, please call our main line at (555) 123-4567 and follow the prompts for the on-call physician. For life-threatening emergencies, call 911 or go to the nearest emergency room."
+    },
+    {
+      "name": "pediatric_services",
+      "question": "Do you see children?",
+      "answer": "Yes, we provide pediatric care for children from birth to age 18. Well-child visits, vaccinations, and sick visits are all available. Please call to schedule an appointment for your child."
+    },
+    {
+      "name": "women_services",
+      "question": "What women's health services do you offer?",
+      "answer": "We offer comprehensive women's health services including annual exams, prenatal care, menopause management, and reproductive health. Please schedule an appointment with one of our women's health providers."
+    }
+  ]
+}

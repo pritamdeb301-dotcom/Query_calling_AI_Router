@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+sqlmodel
+langchain
+chromadb
+sentence-transformers
+python-dotenv
+pydantic
+httpx
